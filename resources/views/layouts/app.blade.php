@@ -11,7 +11,7 @@
 
     <link rel="stylesheet" href="{{ asset('css/app.css') }}">
 
-    <!-- @livewireStyles -->
+    <livewire:styles>
 
     <script src="{{ asset('js/app.js') }}" defer></script>
     <script src="https://cdn.jsdelivr.net/gh/alpinejs/alpine@v2.8.2/dist/alpine.min.js" defer></script>
@@ -30,7 +30,7 @@
                 </ul>
             </div>
             <div class="flex items-center mt-6 lg:mt-0">
-                <!-- <livewire:search-dropdown> -->
+                <!-- livewire:search-dropdown -->
                 <div class="ml-6">
                     <a href="#"><img src="{{ asset('avatar.jpg')}}" alt="avatar" class="rounded-full w-8"></a>
                 </div>
@@ -47,7 +47,7 @@
             Powered by <a href="#" class="underline hover:text-gray-400">IGDB API</a>
         </div>
     </footer>
-    <!-- @livewireScripts -->
+    <livewire:scripts>
     <script src="{{ asset('js/app.js')}}"></script>
     <!-- @stack('scripts') -->
 </body>

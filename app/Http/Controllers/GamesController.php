@@ -21,20 +21,6 @@ class GamesController extends Controller
         $current = Carbon::now()->timestamp;
         $afterFourMonths = Carbon::now()->addMonths(4)->timestamp;
 
-        $popularGames = Cache::remember('popular-games', 1, function () use ($before, $after) {
-            return Http::withHeaders(config('services.igdb'))
-                ->withBody(
-                    "fields name, cover.url, first_release_date, total_rating_count, platforms.abbreviation, rating, slug; 
-                    where platforms = (48,49,130,6)
-                    & (first_release_date > {$before}
-                    & first_release_date < {$after}
-                    & total_rating_count > 6);
-                    sort total_rating_count desc;
-                    limit 12;", "text/plain"
-                )->post('https://api.igdb.com/v4/games')
-                ->json();
-        });
-
         $recentlyReviewed = Cache::remember('recently-reviewed', 1, function () use ($before, $current) {
             return Http::withHeaders(config('services.igdb'))
                 ->withBody(
@@ -75,6 +61,6 @@ class GamesController extends Controller
                 ->json();
         });
 
-        return view('index', compact('popularGames', 'recentlyReviewed', 'mostAnticipated', 'comingSoon'));
+        return view('index', compact('recentlyReviewed', 'mostAnticipated', 'comingSoon'));
     }
 }
