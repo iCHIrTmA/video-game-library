@@ -18,24 +18,63 @@ class GamesController extends Controller
     {
         $before = Carbon::now()->subMonths(2)->timestamp;
         $after = Carbon::now()->addMonths(2)->timestamp;
+        $current = Carbon::now()->timestamp;
+        $afterFourMonths = Carbon::now()->addMonths(4)->timestamp;
 
         $popularGames = Cache::remember('popular-games', 1, function () use ($before, $after) {
-            return Http::withHeaders([
-                'Client-ID' => '3pwtotz4s9x6eucs8xvel3ghlgej5a',
-                'Authorization' => 'Bearer q7ro5oz4onykko23k26lfliiewau0o'
-            ])->withBody(
-                "fields name, cover.url, first_release_date, total_rating_count, platforms.abbreviation, rating, slug; 
-                where platforms = (48,49,130,6)
-                & (first_release_date > {$before}
-                & first_release_date < {$after}
-                & total_rating_count > 7);
-                sort total_rating_count desc;
-                limit 12;", "text/plain"
-            )->post('https://api.igdb.com/v4/games')
-            ->json();
+            return Http::withHeaders(config('services.igdb'))
+                ->withBody(
+                    "fields name, cover.url, first_release_date, total_rating_count, platforms.abbreviation, rating, slug; 
+                    where platforms = (48,49,130,6)
+                    & (first_release_date > {$before}
+                    & first_release_date < {$after}
+                    & total_rating_count > 6);
+                    sort total_rating_count desc;
+                    limit 12;", "text/plain"
+                )->post('https://api.igdb.com/v4/games')
+                ->json();
         });
-        dump($popularGames);
 
-        return view('index');
+        $recentlyReviewed = Cache::remember('recently-reviewed', 1, function () use ($before, $current) {
+            return Http::withHeaders(config('services.igdb'))
+                ->withBody(
+                    "fields name, cover.url, first_release_date, total_rating_count, platforms.abbreviation, rating, summary, slug; 
+                    where platforms = (48,49,130,6)
+                    & (first_release_date > {$before}
+                    & first_release_date < {$current}
+                    & total_rating_count > 7);
+                    sort total_rating_count desc;
+                    limit 3;", "text/plain"
+                )->post('https://api.igdb.com/v4/games')
+                ->json();
+        });
+
+        $mostAnticipated = Cache::remember('most-anticipated', 1, function () use ($current, $afterFourMonths) {
+            return Http::withHeaders(config('services.igdb'))
+                ->withBody(
+                    "fields name, cover.url, first_release_date, total_rating_count, slug; 
+                    where platforms = (48,49,130,6)
+                    & (first_release_date >= {$current}
+                    & first_release_date < {$afterFourMonths});
+                    sort total_rating_count desc;
+                    limit 4;", "text/plain"
+                )->post('https://api.igdb.com/v4/games')
+                ->json();
+        });
+
+        $comingSoon = Cache::remember('coming-soon', 1, function () use ($current) {
+            return Http::withHeaders(config('services.igdb'))
+                ->withBody(
+                    "fields name, cover.url, first_release_date, total_rating_count, slug; 
+                    where platforms = (48,49,130,6)
+                    & (first_release_date >= {$current}
+                    & total_rating_count > 1);
+                    sort first_release_date asc;
+                    limit 4;", "text/plain"
+                )->post('https://api.igdb.com/v4/games')
+                ->json();
+        });
+
+        return view('index', compact('popularGames', 'recentlyReviewed', 'mostAnticipated', 'comingSoon'));
     }
 }
