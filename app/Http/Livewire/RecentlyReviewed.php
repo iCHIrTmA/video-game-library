@@ -12,7 +12,7 @@ class RecentlyReviewed extends Component
     public $recentlyReviewed = [];
 
     public function getRecentlyReviewed() {
-        $this->recentlyReviewed = Cache::remember('recently-reviewed', 5, function () {
+        $this->recentlyReviewed = Cache::remember('recently-reviewed', 10, function () {
             $before = Carbon::now()->subMonths(2)->timestamp;
             $current = Carbon::now()->timestamp;
     

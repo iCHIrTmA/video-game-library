@@ -13,7 +13,7 @@ class PopularGames extends Component
 
     public function getPopularGames()
     {
-        $this->popularGames = Cache::remember('popular-games', 5, function () {
+        $this->popularGames = Cache::remember('popular-games', 10, function () {
             $before = Carbon::now()->subMonths(2)->timestamp;
             $after = Carbon::now()->addMonths(2)->timestamp;
 
