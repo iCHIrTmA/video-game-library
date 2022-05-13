@@ -2,32 +2,47 @@
 @section('content')
     <div class="container mx-auto px-4">
         <div class="game-details border-b border-gray-800 pb-12 flex flex-col lg:flex-row">
-            <div class="flex-none mx-auto">
-                <img src="{{ asset('ff7.jpg') }}" alt="cover">
+            <div class="flex-none mx-auto lg:mx-0">
+                <img src="{{ Str::replaceFirst('thumb', 'cover_big', $game['cover']['url']) }}" alt="cover">
             </div>
             <div class="lg:ml-12 lg:mr-64">
-                <h2 class="font-semibold text-4xl leading-tight mt-5 lg:mt-0">Final Fantasy VII Remake</h2>
+                <h2 class="font-semibold text-4xl leading-tight mt-5 lg:mt-0">{{ $game['name'] }}</h2>
                 <div class="text-gray-400">
-                    <span>Adventure, RPG</span>
-                        &middot;
-                    <span>Square Enix</span>
-                        &middot;
-                    <span>Playstation 4</span>
+                    <span>
+                        @foreach ($game['genres'] as $genre)
+                            {{ $genre['name'] }}
+                        @endforeach
+                    </span>
+                    &middot;
+                    <span>
+                        {{ $game['involved_companies'][0]['company']['name'] }}
+                    </span>
+                    &middot;
+                    <span>
+                        @foreach ($game['platforms'] as $platform)
+                            {{ $platform['abbreviation'] }},
+                        @endforeach
+                    </span>
                 </div>
 
                 <div class="flex flex-wrap items-center mt-8">
-                    <div class="flex items-center">
-                        <div class="w-16 h-16 bg-gray-800 rounded-full">
-                            <div class="font-semi-bold text-xs flex justify-center items-center h-full">90%</div>
+                    @isset($game['rating'])
+                        <div class="flex items-center">
+                            <div class="w-16 h-16 bg-gray-800 rounded-full">
+                                <div class="font-semi-bold text-xs flex justify-center items-center h-full">90%</div>
+                            </div>
+                            <div class="ml-4 text-xs">Member <br>Score</div>
                         </div>
-                        <div class="ml-4 text-xs">Member <br>scope</div>
-                    </div>
-                    <div class="flex items-center ml-12">
-                        <div class="w-16 h-16 bg-gray-800 rounded-full">
-                            <div class="font-semi-bold text-xs flex justify-center items-center h-full">92%</div>
+                    @endisset
+
+                    @isset($game['aggregated_rating'])
+                        <div class="flex items-center ml-12">
+                            <div class="w-16 h-16 bg-gray-800 rounded-full">
+                                <div class="font-semi-bold text-xs flex justify-center items-center h-full">92%</div>
+                            </div>
+                            <div class="ml-4 text-xs">Critic <br>Score</div>
                         </div>
-                        <div class="ml-4 text-xs">Critic <br>Score</div>
-                    </div>
+                    @endisset
                     <!-- Social Icons -->
                     <div class="flex items-center space-x-4 mt-4 lg:mt-0 lg:ml-12">
                         <div class="w-8 h-8 bg-gray-800 rounded-full flex justify-center items-center">
@@ -55,16 +70,16 @@
                 </div>
 
                 <p class="mt-12">
-                    Set in the dystopian cyberpunk metropolis of Midgar, players control mercenary Cloud Strife.
-                    He joins AVALANCHE, an eco-terrorist group trying to stop the powerful megacorporation Shinra from using the planet's life essence as an energy source.
-                    The gameplay combines real-time action with strategic and role-playing elements.
+                    {{ $game['summary'] }}
                 </p>
 
                 <div class="mt-12">
-                    <button class="flex bg-blue-500 text-white font-semi-bold px-4 py-4 hover:bg-blue-600 rounded transition ease-in-out duration-150">
-                    <svg class="w-6 fill-current" viewBox="0 0 24 24"><path d="M0 0h24v24H0z" fill="none"></path><path d="M10 16.5l6-4.5-6-4.5v9zM12 2C6.48 2 2 6.48 2 12s4.48 10 10 10 10-4.48 10-10S17.52 2 12 2zm0 18c-4.41 0-8-3.59-8-8s3.59-8 8-8 8 3.59 8 8-3.59 8-8 8z"></path></svg>
+                    <a
+                        href="https://youtube.com/watch?v={{ $game['videos'][0]['video_id'] }}"
+                        class="inline-flex bg-blue-500 text-white font-semi-bold px-4 py-4 hover:bg-blue-600 rounded transition ease-in-out duration-150">
+                        <svg class="w-6 fill-current" viewBox="0 0 24 24"><path d="M0 0h24v24H0z" fill="none"></path><path d="M10 16.5l6-4.5-6-4.5v9zM12 2C6.48 2 2 6.48 2 12s4.48 10 10 10 10-4.48 10-10S17.52 2 12 2zm0 18c-4.41 0-8-3.59-8-8s3.59-8 8-8 8 3.59 8 8-3.59 8-8 8z"></path></svg>
                         <span>Play Trailer</span>
-                    </button>
+                    </a>
                 </div>
             </div>
         </div>
@@ -73,158 +88,51 @@
         <div class="images-container border-b border-gray-800 pb-12 mt-8">
             <h2 class="text-blue-500 uppercase tracking-wide font-semibold">Images</h2>
             <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-12 mt-8">
-                <div>
-                    <a href="#">
-                        <img src="{{ asset('screenshot1.jpg') }}" alt="screenshot" class="hover:opacity-75 transition ease-in-out duration-150">
-                    </a>
-                </div>
-                <div>
-                    <a href="#">
-                        <img src="{{ asset('screenshot2.jpg') }}" alt="screenshot" class="hover:opacity-75 transition ease-in-out duration-150">
-                    </a>
-                </div>
-                <div>
-                    <a href="#">
-                        <img src="{{ asset('screenshot3.jpg') }}" alt="screenshot" class="hover:opacity-75 transition ease-in-out duration-150">
-                    </a>
-                </div>
-                <div>
-                    <a href="#">
-                        <img src="{{ asset('screenshot4.jpg') }}" alt="screenshot" class="hover:opacity-75 transition ease-in-out duration-150">
-                    </a>
-                </div>
-                <div>
-                    <a href="#">
-                        <img src="{{ asset('screenshot5.jpg') }}" alt="screenshot" class="hover:opacity-75 transition ease-in-out duration-150">
-                    </a>
-                </div>
-                <div>
-                    <a href="#">
-                        <img src="{{ asset('screenshot6.jpg') }}" alt="screenshot" class="hover:opacity-75 transition ease-in-out duration-150">
-                    </a>
-                </div>
+                @foreach($game['screenshots'] as $screenshot)
+                    <div>
+                        <a href="{{ Str::replaceFirst('thumb', 'screenshot_huge', $screenshot['url']) }}">
+                            <img src="{{ Str::replaceFirst('thumb', 'screenshot_med', $screenshot['url']) }}" alt="screenshot" class="hover:opacity-75 transition ease-in-out duration-150">
+                        </a>
+                    </div>
+                @endforeach
             </div>
         </div>
         <!-- End images container -->
 
-
         <div class="similar-games-container mt-8">
             <h2 class="text-blue-500 uppercase tracking-wide font-semibold">Similar Games</h2>
             <div class="similar-games text-sm grid grid-cols-1 md:grid-cols-2 lg:grid-cols-5 xl:grid-cols-6 gap-12">
-            <div class="game mt-8 mx-auto">
-                <div class="relative inline-block">
-                    <a href="#">
-                        <img src="{{ asset('ff7.jpg') }}" alt="game cover" class="hover:opacity-75 transition ease-in-out duration-150">
-                    </a>
-                    <div class="absolute bottom-0 right-0 w-16 h-16 bg-gray-800 rounded-full -mr-5 -mb-5">
-                        <div class="font-semibold text-xs flex justify-center items-center h-full">
-                            80%
-                        </div>
+                @foreach($game['similar_games'] as $similar)
+                    <div class="game mt-8 mx-auto">
+                        @if(isset($similar['cover']))
+                            <div class="relative inline-block">
+                                <a href="{{ route('games.show', $similar['slug']) }}">
+                                    <img src="{{ Str::replaceFirst('thumb', '720p', $similar['cover']['url']) }}" alt="game cover" class="hover:opacity-75 transition ease-in-out duration-150">
+                                </a>
+                                <div class="absolute bottom-0 right-0 w-16 h-16 bg-gray-800 rounded-full -mr-5 -mb-5">
+                                    <div class="font-semibold text-xs flex justify-center items-center h-full">
+                                        80%
+                                    </div>
+                                </div>
+                            </div>
+                        @endif
+                        <a href="{{ route('games.show', $similar['slug']) }}" class="block text-base font-semibold leading-tight hover:text-gray-400 mt-8">
+                            {{ $similar['name']}}
+                        </a>
+                        @isset($similar['platforms'])
+                            <div class="text-gray-400 mt-1">
+                                @foreach ($similar['platforms'] as $platform)
+                                    @isset($platform['abbreviation'])
+                                        {{ $platform['abbreviation'] }},
+                                    @else
+                                        Surprise Platform
+                                    @endisset
+                                @endforeach
+                            </div>
+                        @endisset
                     </div>
-                </div>
-                <a href="#" class="block text-base font-semibold leading-tight hover:text-gray-400 mt-8">
-                    Final Fantasy 7 Remake
-                </a>
-                <div class="text-gray-400 mt-1">
-                    Playstation 4
-                </div>
+                @endforeach
             </div>
-
-            <div class="game mt-8 mx-auto">
-                <div class="relative inline-block">
-                    <a href="#">
-                        <img src="{{ asset('animalcrossing.jpg') }}" alt="game cover" class="hover:opacity-75 transition ease-in-out duration-150">
-                    </a>
-                    <div class="absolute bottom-0 right-0 w-16 h-16 bg-gray-800 rounded-full -mr-5 -mb-5">
-                        <div class="font-semibold text-xs flex justify-center items-center h-full">
-                            80%
-                        </div>
-                    </div>
-                </div>
-                <a href="#" class="block text-base font-semibold leading-tight hover:text-gray-400 mt-8">
-                    Animal Crossing: New Horizons
-                </a>
-                <div class="text-gray-400 mt-1">
-                    Nintendo Switch
-                </div>
-            </div>
-
-            <div class="game mt-8 mx-auto">
-                <div class="relative inline-block">
-                    <a href="#">
-                        <img src="{{ asset('doom.jpg') }}" alt="game cover" class="hover:opacity-75 transition ease-in-out duration-150">
-                    </a>
-                    <div class="absolute bottom-0 right-0 w-16 h-16 bg-gray-800 rounded-full -mr-5 -mb-5">
-                        <div class="font-semibold text-xs flex justify-center items-center h-full">
-                            80%
-                        </div>
-                    </div>
-                </div>
-                <a href="#" class="block text-base font-semibold leading-tight hover:text-gray-400 mt-8">
-                    Doom Eternal
-                </a>
-                <div class="text-gray-400 mt-1">
-                    Playstation 4, PC
-                </div>
-            </div>
-
-            <div class="game mt-8 mx-auto">
-                <div class="relative inline-block">
-                    <a href="#">
-                        <img src="{{ asset('alyx.jpg') }}" alt="game cover" class="hover:opacity-75 transition ease-in-out duration-150">
-                    </a>
-                    <div class="absolute bottom-0 right-0 w-16 h-16 bg-gray-800 rounded-full -mr-5 -mb-5">
-                        <div class="font-semibold text-xs flex justify-center items-center h-full">
-                            80%
-                        </div>
-                    </div>
-                </div>
-                <a href="#" class="block text-base font-semibold leading-tight hover:text-gray-400 mt-8">
-                    Half Life: Alyx
-                </a>
-                <div class="text-gray-400 mt-1">
-                    PC
-                </div>
-            </div>
-
-            <div class="game mt-8 mx-auto">
-                <div class="relative inline-block">
-                    <a href="#">
-                        <img src="{{ asset('luigi.jpg') }}" alt="game cover" class="hover:opacity-75 transition ease-in-out duration-150">
-                    </a>
-                    <div class="absolute bottom-0 right-0 w-16 h-16 bg-gray-800 rounded-full -mr-5 -mb-5">
-                        <div class="font-semibold text-xs flex justify-center items-center h-full">
-                            80%
-                        </div>
-                    </div>
-                </div>
-                <a href="#" class="block text-base font-semibold leading-tight hover:text-gray-400 mt-8">
-                    Luigi's Mansion 3
-                </a>
-                <div class="text-gray-400 mt-1">
-                    Nintendo Switch
-                </div>
-            </div>
-
-            <div class="game mt-8 mx-auto">
-                <div class="relative inline-block">
-                    <a href="#">
-                        <img src="{{ asset('resident.jpg') }}" alt="game cover" class="hover:opacity-75 transition ease-in-out duration-150">
-                    </a>
-                    <div class="absolute bottom-0 right-0 w-16 h-16 bg-gray-800 rounded-full -mr-5 -mb-5">
-                        <div class="font-semibold text-xs flex justify-center items-center h-full">
-                            80%
-                        </div>
-                    </div>
-                </div>
-                <a href="#" class="block text-base font-semibold leading-tight hover:text-gray-400 mt-8">
-                    Resident Evil 3
-                </a>
-                <div class="text-gray-400 mt-1">
-                    PC, Playstation 4, XBox One X
-                </div>
-            </div>
-        </div>
         </div>
         <!-- End Similar Games -->
     </div>

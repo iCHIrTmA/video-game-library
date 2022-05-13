@@ -1444,6 +1444,16 @@ select {
 }
 @media (min-width: 1024px) {
 
+  .lg\:mx-auto {
+    margin-left: auto;
+    margin-right: auto;
+  }
+
+  .lg\:mx-0 {
+    margin-left: 0px;
+    margin-right: 0px;
+  }
+
   .lg\:ml-16 {
     margin-left: 4rem;
   }
@@ -1482,6 +1492,10 @@ select {
 
   .lg\:w-48 {
     width: 12rem;
+  }
+
+  .lg\:flex-none {
+    flex: none;
   }
 
   .lg\:grid-cols-3 {
