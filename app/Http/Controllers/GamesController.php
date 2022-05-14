@@ -34,7 +34,7 @@ class GamesController extends Controller
         return collect($game)->merge([
             'coverImageUrl' => Str::replaceFirst('thumb', 'cover_big', $game['cover']['url'] ),
             'genres' => isset($game['genres']) ? collect($game['genres'])->implode('name', ', ') : null,
-            'involvedCompanies' => isset($game['involved_companies'][0]['company']['name']) ?? null,
+            'involvedCompanies' => isset($game['involved_companies']) ? $game['involved_companies'][0]['company']['name'] : null,
             'platforms' => isset($game['platforms']) ? collect($game['platforms'])->implode('abbreviation', ', ') : null,
             'memberRating' => isset($game['rating']) ? round($game['rating']) . '%' : null,
             'criticRating' => isset($game['aggregated_rating']) ? round($game['aggregated_rating']) . '%' : null,
