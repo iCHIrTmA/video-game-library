@@ -33,12 +33,12 @@ class GamesController extends Controller
     {
         return collect($game)->merge([
             'coverImageUrl' => Str::replaceFirst('thumb', 'cover_big', $game['cover']['url'] ),
-            'genres' => collect($game['genres'])->implode('name', ', '),
+            'genres' => isset($game['genres']) ? collect($game['genres'])->implode('name', ', ') : null,
             'involvedCompanies' => isset($game['involved_companies'][0]['company']['name']) ?? null,
             'platforms' => isset($game['platforms']) ? collect($game['platforms'])->implode('abbreviation', ', ') : null,
             'memberRating' => isset($game['rating']) ? round($game['rating']) . '%' : null,
             'criticRating' => isset($game['aggregated_rating']) ? round($game['aggregated_rating']) . '%' : null,
-            'trailer' =>  isset($game['videos'][0]['video_id']) ? 'https://youtube.com/watch?v=' . $game['videos'][0]['video_id'] : '#',
+            'trailer' =>  isset($game['videos'][0]['video_id']) ? 'https://youtube.com/watch?v=' . $game['videos'][0]['video_id'] : 'https://youtube.com/results?search_query=' . $game['name'] . '+trailer',
             'screenshots' => collect($game['screenshots'])->map(function ($screenshot) {
                 return [
                     'big' => Str::replaceFirst('thumb', 'screenshot_big', $screenshot['url']),
@@ -57,7 +57,7 @@ class GamesController extends Controller
                     return Str::contains($website['url'], 'instagram');
                 })->first(),
             ],
-            'similarGames' => collect($game['similar_games'])->map(function ($similar) {
+            'similarGames' => isset($game['similar_games']) ? collect($game['similar_games'])->map(function ($similar) {
                 return [
                     'slug' => $similar['slug'],
                     'coverImageUrl' => isset($similar['cover']) ? Str::replaceFirst('thumb', '720p', $similar['cover']['url']) : 'https://via.placeholder.com/264x352',
@@ -65,7 +65,7 @@ class GamesController extends Controller
                     'name' => $similar['name'],
                     'platforms' => isset($similar['platforms']) ? collect($similar['platforms'])->implode('abbreviation', ', ') : null,
                 ];
-            })->take(6),
+            })->take(6) : null,
         ]);
     }
 }

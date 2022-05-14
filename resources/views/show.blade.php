@@ -121,35 +121,16 @@
         </div>
         <!-- End images container -->
 
-        <div class="similar-games-container mt-8">
-            <h2 class="text-blue-500 uppercase tracking-wide font-semibold">Similar Games</h2>
-            <div class="similar-games text-sm grid grid-cols-1 md:grid-cols-2 lg:grid-cols-5 xl:grid-cols-6 gap-12">
-                @foreach($game['similarGames'] as $similar)
-                    <div class="game mt-8 mx-auto">
-                        <div class="relative inline-block">
-                            <a href="{{ route('games.show', $similar['slug']) }}">
-                                <img src="{{ $similar['coverImageUrl'] }}" alt="game cover" class="hover:opacity-75 transition ease-in-out duration-150">
-                            </a>
-                            @isset($similar['rating'])
-                                <div class="absolute bottom-0 right-0 w-16 h-16 bg-gray-800 rounded-full -mr-5 -mb-5">
-                                    <div class="font-semibold text-xs flex justify-center items-center h-full">
-                                        {{ $similar['rating'] }}
-                                    </div>
-                                </div>
-                            @endisset
-                        </div>
-                        <a href="{{ route('games.show', $similar['slug']) }}" class="block text-base font-semibold leading-tight hover:text-gray-400 mt-8">
-                            {{ $similar['name']}}
-                        </a>
-                        @isset($similar['platforms'])
-                            <div class="text-gray-400 mt-1">
-                                {{ $similar['platforms'] }}
-                            </div>
-                        @endisset
-                    </div>
-                @endforeach
+        @isset($game['similarGames'])
+            <div class="similar-games-container mt-8">
+                <h2 class="text-blue-500 uppercase tracking-wide font-semibold">Similar Games</h2>
+                <div class="similar-games text-sm grid grid-cols-1 md:grid-cols-2 lg:grid-cols-5 xl:grid-cols-6 gap-12">
+                    @foreach($game['similarGames'] as $similar)
+                        <x-game-card :game="$similar" />
+                    @endforeach
+                </div>
             </div>
-        </div>
+        @endisset
         <!-- End Similar Games -->
     </div>
 @endsection
