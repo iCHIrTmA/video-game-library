@@ -1,5 +1,12 @@
 <script>
-    var progressBarContainer = document.getElementById('{{ $id }}');
+    @if ($event) window.livewire.on('gameWithRatingAdded', params => { @endif
+    
+    @if ($event)
+        var progressBarContainer = document.getElementById(params.slug);
+    @else
+        var progressBarContainer = document.getElementById('{{ $id }}');
+    @endif
+
     var bar = new ProgressBar.Circle(progressBarContainer, {
         color: 'white',
         strokeWidth: 6,
@@ -23,5 +30,11 @@
             }
         }
     });
-    bar.animate('{{ $rating }}' / 100); // number to show choose from 0.0 to 1.0
+
+    @if ($event)
+            bar.animate(params.rating); // number to show choose from 0.0 to 1.0
+        @else
+            bar.animate('{{ $rating }}' / 100); // number to show choose from 0.0 to 1.0
+        @endif
+    @if ($event) }) @endif
 </script>
