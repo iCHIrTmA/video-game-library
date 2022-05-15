@@ -20,7 +20,7 @@
     <header class="border-b border-gray-800">
         <nav class="container mx-auto flex flex-col lg:flex-row items-center justify-between px-4 py-6">
             <div class="flex flex-col lg:flex-row items-center">
-                <a href="">
+                <a href="https://janroe-cordero.vercel.app">
                     <img src="{{ asset('logo.svg')}}" alt="corderue-logo" class="w-32 flex-none">
                 </a>
                 <ul class="flex ml-0 lg:ml-16 space-x-8 mt-6 lg:mt-0">
@@ -32,7 +32,7 @@
             <div class="flex items-center mt-6 lg:mt-0">
                 <livewire:search-dropdown>
                 <div class="ml-6">
-                    <a href="#"><img src="{{ asset('avatar.jpg')}}" alt="avatar" class="rounded-full w-8"></a>
+                    <a href="https://janroe-cordero.vercel.app"><img src="{{ asset('avatar.jpg')}}" alt="avatar" class="rounded-full w-8"></a>
                 </div>
             </div>
         </nav>
