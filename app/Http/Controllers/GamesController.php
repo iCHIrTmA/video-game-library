@@ -61,7 +61,7 @@ class GamesController extends Controller
                 return [
                     'slug' => $similar['slug'],
                     'coverImageUrl' => isset($similar['cover']) ? Str::replaceFirst('thumb', '720p', $similar['cover']['url']) : 'https://via.placeholder.com/264x352',
-                    'rating' => isset($similar['rating']) ? round($similar['rating']) . '%' : null,
+                    'rating' => isset($similar['rating']) ? round($similar['rating']) : null,
                     'name' => $similar['name'],
                     'platforms' => isset($similar['platforms']) ? collect($similar['platforms'])->implode('abbreviation', ', ') : null,
                 ];
