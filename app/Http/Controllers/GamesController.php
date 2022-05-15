@@ -36,8 +36,8 @@ class GamesController extends Controller
             'genres' => isset($game['genres']) ? collect($game['genres'])->implode('name', ', ') : null,
             'involvedCompanies' => isset($game['involved_companies']) ? $game['involved_companies'][0]['company']['name'] : null,
             'platforms' => isset($game['platforms']) ? collect($game['platforms'])->implode('abbreviation', ', ') : null,
-            'memberRating' => isset($game['rating']) ? round($game['rating']) . '%' : null,
-            'criticRating' => isset($game['aggregated_rating']) ? round($game['aggregated_rating']) . '%' : null,
+            'memberRating' => isset($game['rating']) ? round($game['rating']) : null,
+            'criticRating' => isset($game['aggregated_rating']) ? round($game['aggregated_rating']) : null,
             'trailer' =>  isset($game['videos'][0]['video_id']) ? 'https://youtube.com/watch?v=' . $game['videos'][0]['video_id'] : 'https://youtube.com/results?search_query=' . $game['name'] . '+trailer',
             'screenshots' => collect($game['screenshots'])->map(function ($screenshot) {
                 return [
