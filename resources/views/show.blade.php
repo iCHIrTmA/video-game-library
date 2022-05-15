@@ -2,7 +2,7 @@
 @section('content')
     <div class="container mx-auto px-4">
         <div class="game-details border-b border-gray-800 pb-12 flex flex-col lg:flex-row">
-            @isset($game['cover'])
+            @isset($game['coverImageUrl'])
                 <div class="flex-none mx-auto lg:mx-0">
                     <img src="{{ $game['coverImageUrl'] }}" alt="cover">
                 </div>
@@ -97,9 +97,11 @@
 
                 </div>
 
-                <p class="mt-12">
-                    {{ $game['summary'] }}
-                </p>
+                @isset($game['summary'])
+                    <p class="mt-12">
+                        {{ $game['summary'] }}
+                    </p>
+                @endisset
 
                 @isset($game['videos'])
                     <div class="mt-12" x-data="{ isTrailerModalVisible: false }">
@@ -141,10 +143,10 @@
         </div>
         <!-- End Game Details -->
 
-        <div class="images-container border-b border-gray-800 pb-12 mt-8" x-data="{ isImageModalVisible: false, image: '' }">
-                <h2 class="text-blue-500 uppercase tracking-wide font-semibold">Images</h2>
-                <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-12 mt-8">
-                    @if ($game['screenshots'])
+        @if ($game['screenshots'])
+            <div class="images-container border-b border-gray-800 pb-12 mt-8" x-data="{ isImageModalVisible: false, image: '' }">
+                    <h2 class="text-blue-500 uppercase tracking-wide font-semibold">Images</h2>
+                    <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-12 mt-8">
                         @foreach($game['screenshots'] as $screenshot)
                             <div>
                                 <a href="#"
@@ -157,33 +159,33 @@
                                 </a>
                             </div>
                         @endforeach
-                    @endif
-                </div>
+                    </div>
 
-                <template x-if="isImageModalVisible">
-                    <div
-                        style="background-color: rgba(0, 0, 0, .5);"
-                        class="z-50 fixed top-0 left-0 w-full h-full flex items-center shadow-lg overflow-y-auto"
-                    >
-                    <div class="container mx-auto lg:px-32 rounded-lg overflow-y-auto">
-                        <div class="bg-gray-900 rounded">
-                            <div class="flex justify-end pr-4 pt-2">
-                                <button
-                                    class="text-3xl leading-none hover:text-gray-300"
-                                    @click="isImageModalVisible = false"
-                                    @keydown.escape.window="isImageModalVisible = false"
-                                >
-                                &times;
-                                </button>
+                    <template x-if="isImageModalVisible">
+                        <div
+                            style="background-color: rgba(0, 0, 0, .5);"
+                            class="z-50 fixed top-0 left-0 w-full h-full flex items-center shadow-lg overflow-y-auto"
+                        >
+                        <div class="container mx-auto lg:px-32 rounded-lg overflow-y-auto">
+                            <div class="bg-gray-900 rounded">
+                                <div class="flex justify-end pr-4 pt-2">
+                                    <button
+                                        class="text-3xl leading-none hover:text-gray-300"
+                                        @click="isImageModalVisible = false"
+                                        @keydown.escape.window="isImageModalVisible = false"
+                                    >
+                                    &times;
+                                    </button>
+                                </div>
+                            <div class="modal-body px-8 py-8">
+                                <img :src="image" alt="screenshot">
                             </div>
-                        <div class="modal-body px-8 py-8">
-                            <img :src="image" alt="screenshot">
-                        </div>
+                            </div>
                         </div>
                     </div>
-                </div>
-            </template>
-        </div>
+                </template>
+            </div>
+        @endif
         <!-- End images container -->
 
         @isset($game['similarGames'])
@@ -195,6 +197,8 @@
                     @endforeach
                 </div>
             </div>
+        @else
+            Stay tuned for updates
         @endisset
         <!-- End Similar Games -->
     </div>
