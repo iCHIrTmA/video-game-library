@@ -6,7 +6,7 @@
         trailWidth: 3,
         trailColor: '#4A5568',
         easing: 'easeInOut',
-        duration: 1000,
+        duration: 1200,
         text: {
             autoStyleContainer: false
         },

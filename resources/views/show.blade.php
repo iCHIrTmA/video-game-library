@@ -32,7 +32,7 @@
                 <div class="flex flex-wrap items-center mt-8">
                     @isset($game['rating'])
                         <div class="flex items-center">
-                            <div id="memberRating" class="w-16 h-16 bg-gray-800 rounded-full text-sm relative">
+                            <div id="memberRating" class="w-16 h-16 bg-gray-800 rounded-full relative">
                                 @push('scripts')
                                     @include('_rating', [
                                         'id' => 'memberRating',
@@ -47,10 +47,14 @@
 
                     @isset($game['aggregated_rating'])
                         <div class="flex items-center ml-12">
-                            <div id="criticRating" class="w-16 h-16 bg-gray-800 rounded-full">
-                                <div class="font-semi-bold text-xs flex justify-center items-center h-full">
-                                    {{ $game['criticRating'] }}
-                                </div>
+                            <div id="criticRating" class="w-16 h-16 bg-gray-800 rounded-full relative">
+                                @push('scripts')
+                                    @include('_rating', [
+                                        'id' => 'criticRating',
+                                        'rating' => $game['criticRating'],
+                                        'event' => null
+                                    ])
+                                @endpush
                             </div>
                             <div class="ml-4 text-xs">Critic <br>Score</div>
                         </div>
