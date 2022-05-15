@@ -15,7 +15,7 @@ class GamesController extends Controller
 
     public function show($slug)
     {
-        $game = Cache::remember('popular-games', 10, function () use ($slug){
+        $game = Cache::remember('show-game-page', 2, function () use ($slug){
             return Http::withHeaders(config('services.igdb'))
                 ->withBody(
                     "fields name, cover.url, total_rating_count, platforms.abbreviation, rating,
