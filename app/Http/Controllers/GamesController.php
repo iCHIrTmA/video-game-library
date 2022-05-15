@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers;
 
+use Illuminate\Support\Facades\Cache;
 use Illuminate\Support\Facades\Http;
 use Illuminate\Support\Str;
 
@@ -14,7 +15,8 @@ class GamesController extends Controller
 
     public function show($slug)
     {
-        $game = Http::withHeaders(config('services.igdb'))
+        $game = Cache::remember('popular-games', 10, function () use ($slug){
+            return Http::withHeaders(config('services.igdb'))
                 ->withBody(
                     "fields name, cover.url, total_rating_count, platforms.abbreviation, rating,
                     slug, involved_companies.company.name, genres.name, aggregated_rating, summary, websites.*,
@@ -23,6 +25,7 @@ class GamesController extends Controller
                     where slug = \"{$slug}\";", "text/plain"
                 )->post('https://api.igdb.com/v4/games')
                 ->json();
+        });
 
         abort_if(!$game, 404);
 
