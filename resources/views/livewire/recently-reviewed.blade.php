@@ -19,7 +19,11 @@
                     {{ $game['platforms'] }}
                 </div>
                 <p class="mt-6 text-gray-400 lg:block">
-                    {{ $game['summary'] }}
+                    @if(strlen($game['summary']) > 300)
+                        {{ substr($game['summary'], 0, 300) . '... Click to see more.' }}
+                    @else
+                        {{ $game['summary'] }}
+                    @endif
                 </p>
             </div>
         </div>
