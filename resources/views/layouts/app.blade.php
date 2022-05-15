@@ -30,7 +30,7 @@
                 </ul>
             </div>
             <div class="flex items-center mt-6 lg:mt-0">
-                <!-- livewire:search-dropdown -->
+                <livewire:search-dropdown>
                 <div class="ml-6">
                     <a href="#"><img src="{{ asset('avatar.jpg')}}" alt="avatar" class="rounded-full w-8"></a>
                 </div>
